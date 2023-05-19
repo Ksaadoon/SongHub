@@ -2,8 +2,13 @@
 
 Project #3 SEIR Immersive 2023.
 
-The context of the app is to have a relationship between user, song, album and artist. The user will also be able to add "favorite" songs to their own playlist/favorite songs list.
-Optional feature: Depending on delivery time, the user will also be able to add a picture of the artist or album.
-So far, I have used DJANGO, PSQL and Python. This app will contain more features like HTML and CSS.
-Lastly, the server will be deployed on Heroku at the end of the project.
-Phill
+SongHub was written using a Python, Django, PostGres stack.
+The original idea for this application was to provide a list of artists with their respective albums and the songs with each one.
+The home page lists a music catalog that is created progressively by any registered user within the app.
+Only registered users can edit the music catalog.
+
+Each registred user can select among the music catalog, the songs they want to add as favorite to their personal account.
+A song can be favorited by many users, and many users can favorite the same song.
+
+The application is deployed on Heroku.
+
