@@ -33,24 +33,25 @@ class MusicForm(forms.Form):
         song_title = self.cleaned_data['song_title']
 
         try:
-            # Check if the artist already exists
             artist = Artist.objects.get(artist_name=artist_name)
         except ObjectDoesNotExist:
-            # Create a new artist if it doesn't exist
             artist = Artist.objects.create(artist_name=artist_name, artist_genre=artist_genre)
 
         try:
-            # Check if the album already exists
             album = Album.objects.get(album_title=album_title, artist=artist)
         except ObjectDoesNotExist:
-            # Create a new album if it doesn't exist
             album = Album.objects.create(album_title=album_title, artist=artist)
 
-        try:
-            # Check if the song already exists
-            song = Song.objects.get(song_title=song_title, album=album)
-        except ObjectDoesNotExist:
-            # Create a new song if it doesn't exist
-            song = Song.objects.create(song_title=song_title, album=album)
+        # handling ManyToManyField
+        songs = []
+        for title in song_title.split(','):
+            song, created = Song.objects.get_or_create(song_title=title.strip(), album=album)
+            songs.append(song)
 
-        return artist, album, song
+        user = self.request.user
+        # Update or create FavoriteSong instance
+        favoritesong, created = FavoriteSong.objects.get_or_create(user=user)
+        favoritesong.songs.set(songs)  # Update the songs relationship
+
+        return artist, album, songs
+
