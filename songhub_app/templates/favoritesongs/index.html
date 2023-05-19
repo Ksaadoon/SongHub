@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>Favorite songs</h1>
+
+{% for favoritesong in favoritesongs %}
+  <div class="card">
+    <a href="{% url 'favorite_detail' favoritesong.id %}">
+      <div class="card-content">
+        <span class="card-title">{{ favoritesong.song.song_title }}</span>  
+        {% if user.is_authenticated %}
+          <form action="{% url 'remove_favorite' favoritesong.id %}" method="POST" class="remove-form">
+            {% csrf_token %}
+            <button type="submit" class="btn-remove">Remove</button>
+          </form>
+        {% endif %}
+      </div>
+    </a>
+  </div>
+{% endfor %}
+
+{% endblock %}

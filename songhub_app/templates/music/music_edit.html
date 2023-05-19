@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Edit Music</h1>
+  <!-- form post to the same url used for displaying when action being empty -->
+  <form method="post">
+    {% csrf_token %}
+    
+    {{ form.as_p }}
+    
+    <button type="submit">Save</button>
+  </form>
+
+{% endblock %}

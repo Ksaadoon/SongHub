@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>Music List</h1>
+
+<h2>Artists</h2>
+<ul>
+  {% for artist in artists %}
+    <li>{{ artist.artist_name }} - {{ artist.artist_genre }}</li>
+  {% empty %}
+    <li>No artists found.</li>
+  {% endfor %}
+</ul>
+
+<h2>Albums</h2>
+<ul>
+  {% for album in albums %}
+    <li>{{ album.album_title }} by {{ album.artist.artist_name }}</li>
+  {% empty %}
+    <li>No albums found.</li>
+  {% endfor %}
+</ul>
+
+<h2>Songs</h2>
+<ul>
+  {% for song in songs %}
+    <li>{{ song.song_title }} - {{ song.album.album_title }} by {{ song.album.artist.artist_name }}
+        {% if user.is_authenticated %}
+        <form action="{% url 'add_favorite' %}" method="POST">
+          {% csrf_token %}
+          <input type="hidden" name="song_id" value="{{ song.pk }}">
+          <button type="submit">Add to Favorites</button>
+        </form>
+      {% endif %}
+    
+    </li>
+    {% empty %}
+    <li>No songs found.</li>
+  {% endfor %}
+</ul>
+
+    
+{% endblock %}

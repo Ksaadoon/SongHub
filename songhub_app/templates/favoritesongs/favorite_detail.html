@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>Favorite Song Detail</h1>
+
+<h2>Song Information</h2>
+<p>Song Title: {{ song.song_title }}</p>
+<p>Album Title: {{ album.album_title }}</p>
+<p>Artist Name: {{ artist.artist_name }}</p>
+
+
+
+<h2>Artist Information</h2>
+<p>Artist Name: {{ artist.artist_name }}</p>
+<p>Artist Genre: {{ artist.artist_genre }}</p>
+
+
+<h2>Album Information</h2>
+<p>Album Title: {{ album.album_title }}</p>
+<p>Release Date: {{ album.release_date }}</p>
+
+
+{% endblock %}
