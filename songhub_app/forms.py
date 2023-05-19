@@ -25,7 +25,11 @@ class MusicForm(forms.Form):
     artist_genre = forms.CharField(max_length=255)
     album_title = forms.CharField(max_length=255)
     song_title = forms.CharField(max_length=255)
-
+    
+    def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop('request', None)
+        super().__init__(*args, **kwargs)
+        
     def save(self):
         artist_name = self.cleaned_data['artist_name']
         artist_genre = self.cleaned_data['artist_genre']
