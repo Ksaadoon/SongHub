@@ -56,7 +56,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'songhub.urls'
+ROOT_URLCONF = 'song-hub.urls'
 
 TEMPLATES = [
     {
