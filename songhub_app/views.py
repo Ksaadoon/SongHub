@@ -1,4 +1,3 @@
-import uuid
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import ListView, DetailView, FormView
@@ -7,8 +6,6 @@ from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-
-from django.http import HttpResponse
 
 from .forms import *
 from .models import *
@@ -56,16 +53,13 @@ def favoritesongs_index(request):
 @login_required
 def favorite_detail(request, favoritesong_id):
     favoritesong = get_object_or_404(FavoriteSong, id=favoritesong_id)
-    song = favoritesong.song
-    artist = song.album.artist
-    album = song.album
+    songs = favoritesong.songs.all()
     context = {
         'favoritesong': favoritesong,
-        'song': song,
-        'artist': artist,
-        'album': album,
+        'songs': songs,
     }
     return render(request, 'favoritesongs/favorite_detail.html', context)
+
 
 @login_required
 def add_favorite(request):
@@ -75,9 +69,10 @@ def add_favorite(request):
             song = Song.objects.get(pk=song_id)
 
             # Check if the song is already in the user's favorites
-            if not FavoriteSong.objects.filter(user=request.user, song=song).exists():
-                favorite_song = FavoriteSong.objects.create(user=request.user, song=song)
-                return redirect('favorites')  # Redirect to the music list page
+            if not FavoriteSong.objects.filter(user=request.user, songs=song).exists():
+                favorite_song = FavoriteSong.objects.create(user=request.user)
+                favorite_song.songs.add(song)               
+                return redirect('favorites')  # Redirect to the music list page (home)
 
         except Song.DoesNotExist:
             pass
@@ -100,9 +95,6 @@ class MusicFormView(FormView):
 
     def form_valid(self, form):
         # Save the form data
-        artist_instance, album_instance, song_instance = form.save()
-
-        # Perform any additional actions or logic after successful form submission
-
+        artist_instance, album_instance, song_instance = form.save()       
         return super().form_valid(form)
     
