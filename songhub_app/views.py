@@ -18,7 +18,7 @@ def signup(request):
     if form.is_valid():
       user = form.save()
       login(request, user)
-      return redirect('index')
+      return redirect('/')
     else:
       error_message = 'Invalid sign up - try again'
   form = UserCreationForm()
@@ -93,6 +93,11 @@ class MusicFormView(FormView):
     form_class = MusicForm
     success_url = '/'  # URL to redirect to after successful form submission
 
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['request'] = self.request
+        return kwargs
+    
     def form_valid(self, form):
         # Save the form data
         artist_instance, album_instance, song_instance = form.save()       
