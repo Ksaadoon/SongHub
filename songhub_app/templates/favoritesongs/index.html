@@ -7,7 +7,9 @@
   <div class="card">
     <a href="{% url 'favorite_detail' favoritesong.id %}">
       <div class="card-content">
-        <span class="card-title">{{ favoritesong.song.song_title }}</span>  
+        {% for song in favoritesong.songs.all %}
+          <span class="card-title">{{ song.song_title }}</span>  
+        {% endfor %}
         {% if user.is_authenticated %}
           <form action="{% url 'remove_favorite' favoritesong.id %}" method="POST" class="remove-form">
             {% csrf_token %}
